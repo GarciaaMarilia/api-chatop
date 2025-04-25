@@ -1,9 +1,9 @@
 package com.openclassromms.api.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.openclassromms.api.model.LoginRequest;
 import com.openclassromms.api.model.RegisterRequest;
 import com.openclassromms.api.repository.UserRepository;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,4 +47,11 @@ public class AuthControllerIntegrationTest {
         boolean userExists = userRepository.existsByEmail("teste@exemplo.com");
         assertTrue(userExists);
     }
+
+    //@Test
+    //public void shouldLoginUserSuccessfully() throws Exception {
+    //    LoginRequest request = new LoginRequest();
+    //    request.setLogin("teste@exemplo.com");
+    //    request.setPassword("senha123");
+    //}
 }
