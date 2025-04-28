@@ -18,4 +18,8 @@ public class RentalsService {
     public Rental getRentalById(Long id){
         return rentalsRepository.findById(id).orElse(null);
     }
+
+    public  Rental createRental (Rental rental){
+        return rentalsRepository.save(rental);
+    }
 }
