@@ -12,7 +12,8 @@ import java.util.Date;
 
 @Service
 public class JwtService {
-    private final String jwtSecret = "9fT&z$P3r@kLq8^W#uYvX2e!ZtRbMnD6sJgCiHa4BpQoEmN1";
+
+    private final String jwtSecret = "9fTzP3rkLq8WYuYvX2eZtRbMnD6sJgCiHa4BpQoEmN1hfjhfjfhrfrhfjrhfjrhfzazazaz";
     private final long jwtExpirationMs = 86400000;
 
     private SecretKey getSigningKey() {
@@ -24,7 +25,7 @@ public class JwtService {
                 .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .signWith(getSigningKey(), SignatureAlgorithm.HS512)
                 .compact();
     }
 }

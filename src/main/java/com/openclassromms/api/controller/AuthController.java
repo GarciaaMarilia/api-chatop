@@ -30,7 +30,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequest request) {
-        System.out.println("Requisição recebida no /login");
+        System.out.println("Requisição recebida no /login" + request);
         try {
             String result = authService.login(request);
             return ResponseEntity.ok(result);

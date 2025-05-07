@@ -40,7 +40,7 @@ public class AuthService {
     }
 
     public String login (LoginRequest request){
-            System.out.println("Login recebido: ");
+            System.out.println("Login recebido: " + request.getLogin() + request.getPassword());
         try{
 
             Authentication authentication = authenticationManager.authenticate(
