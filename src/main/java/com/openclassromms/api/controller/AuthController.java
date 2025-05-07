@@ -24,11 +24,13 @@ public class AuthController {
 
     @PostMapping("/register")
     public String register(@RequestBody RegisterRequest request){
+        System.out.println("Requisição recebida no /register");
         return authService.register(request);
     }
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequest request) {
+        System.out.println("Requisição recebida no /login");
         try {
             String result = authService.login(request);
             return ResponseEntity.ok(result);

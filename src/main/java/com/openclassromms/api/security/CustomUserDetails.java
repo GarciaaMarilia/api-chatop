@@ -17,41 +17,24 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Retorna as permissões do usuário (no seu caso, poderia ser uma lista de roles ou algo similar)
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        return List.of();
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword(); // A senha encriptada do usuário
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getEmail(); // Ou o campo de login, se diferente
+        return user.getEmail();
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return true; // Caso haja algum controle de expiração de conta
+        return true;
     }
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return true; // Caso haja algum controle de bloqueio de conta
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true; // Caso haja algum controle de expiração de credenciais
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true; // Caso haja algum controle de status de conta (ativa/desativada)
-    }
-
-    // Getter para acessar o objeto User original
     public User getUser() {
         return user;
     }

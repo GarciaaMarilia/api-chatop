@@ -40,7 +40,9 @@ public class AuthService {
     }
 
     public String login (LoginRequest request){
+            System.out.println("Login recebido: ");
         try{
+
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             request.getLogin(),
@@ -52,7 +54,7 @@ public class AuthService {
             String token = jwtService.generateToken(request.getLogin());
 
             return token;
-        }catch(AuthenticationException ex){
+        } catch(AuthenticationException ex){
             throw new BadCredentialsException("Email ou senha inválidos.");
         }
     }
