@@ -28,4 +28,10 @@ public Rental getRentalById(Long id){
     return rentalService.createRental(rental);
 }
 
+    @PutMapping("/{id}")
+    public Rental updateRental(@PathVariable Long id, @RequestBody Rental rental){
+        return rentalService.updateRental(id, rental);
+    }
+
+
 }

@@ -22,4 +22,16 @@ public class RentalsService {
     public  Rental createRental (Rental rental){
         return rentalsRepository.save(rental);
     }
+
+    public Rental updateRental (Long id, Rental rental) {
+Rental existingRental = rentalsRepository.findById(id).orElseThrow(() -> new RuntimeException("Rental not found"));
+
+        existingRental.setSurface(rental.getSurface());
+        existingRental.setPrice(rental.getPrice());
+        existingRental.setPicture(rental.getPicture());
+        existingRental.setDescription(rental.getDescription());
+
+        return rentalsRepository.save(existingRental);
+
+    }
 }
