@@ -10,26 +10,26 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/rentals")
 public class RentalsController {
-@Autowired
+    @Autowired
     private RentalsService rentalService;
 
-@GetMapping
-    public List<Rental> getAllRentals(){
-    return rentalService.getAllRentals();
-}
+    @GetMapping
+    public List<Rental> getAllRentals() {
+        return rentalService.getAllRentals();
+    }
 
-@GetMapping("/{id}")
-public Rental getRentalById(Long id){
-    return rentalService.getRentalById(id);
-}
+    @GetMapping("/{id}")
+    public Rental getRentalById(@PathVariable Long id) {
+        return rentalService.getRentalById(id);
+    }
 
-@PostMapping("/create")
-    public Rental createRental(@RequestBody Rental rental){
-    return rentalService.createRental(rental);
-}
+    @PostMapping("/create")
+    public Rental createRental(@RequestBody Rental rental) {
+        return rentalService.createRental(rental);
+    }
 
     @PutMapping("/{id}")
-    public Rental updateRental(@PathVariable Long id, @RequestBody Rental rental){
+    public Rental updateRental(@PathVariable Long id, @RequestBody Rental rental) {
         return rentalService.updateRental(id, rental);
     }
 
