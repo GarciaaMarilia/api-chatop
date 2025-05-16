@@ -64,18 +64,23 @@ public class AuthService {
     }
 
     public UserDto getUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication == null || !authentication.isAuthenticated()) {
-            throw new RuntimeException("No authenticated user found");
+            if (authentication == null || !authentication.isAuthenticated()) {
+                throw new RuntimeException("No authenticated user found");
+            }
+
+            String email = authentication.getName();
+
+            User user = userRepository.findByEmail(email)
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+
+            return UserDto.fromUser(user);
+
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to get user", e);
         }
-
-        String email = authentication.getName();
-
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        return UserDto.fromUser(user);
     }
 
 }

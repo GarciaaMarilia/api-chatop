@@ -2,25 +2,33 @@ package com.openclassromms.api.config;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.crypto.SecretKey;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 
 public class JwtAuthFilter extends OncePerRequestFilter {
 
-    private final String jwtSecret = "9fTzP3rkLq8WYuYvX2eZtRbMnD6sJgCiHa4BpQoEmN1hfjhfjfhrfrhfjrhfjrhfzazazaz";
+    private final String jwtSecret;
+
+    public JwtAuthFilter(String jwtSecret) {
+        this.jwtSecret = jwtSecret;
+    }
 
     private SecretKey getSigningKey() {
-        return io.jsonwebtoken.security.Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
+        return Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
     }
 
     @Override
