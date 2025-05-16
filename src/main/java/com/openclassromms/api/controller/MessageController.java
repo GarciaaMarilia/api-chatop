@@ -1,7 +1,6 @@
 package com.openclassromms.api.controller;
 
-import com.openclassromms.api.model.Message;
-import com.openclassromms.api.model.MessageDto;
+import com.openclassromms.api.model.MessageRequest;
 import com.openclassromms.api.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,8 +15,7 @@ public class MessageController {
     private MessageService messageService;
 
     @PostMapping("/")
-    public MessageDto sendMessage(@RequestBody Message message){
-        messageService.sendMessage(message);
-        return new MessageDto("Message send with success");
+    public String sendMessage(@RequestBody MessageRequest request){
+       return messageService.sendMessage(request);
     }
 }

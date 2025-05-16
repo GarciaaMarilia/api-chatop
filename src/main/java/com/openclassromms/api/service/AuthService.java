@@ -57,7 +57,7 @@ public class AuthService {
 
             String token = jwtService.generateToken(request.getLogin());
 
-            return "{\"token\": \"" + token + "\"}";
+            return token;
         } catch (AuthenticationException ex) {
             throw new BadCredentialsException("Invalid credentials.");
         }
