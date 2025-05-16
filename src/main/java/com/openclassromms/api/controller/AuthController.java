@@ -37,7 +37,6 @@ public class AuthController {
 
     @GetMapping("/me")
     public ResponseEntity<UserDto> getCurrentUser() {
-        System.out.println("ENTROU NO CONTROLLER");
         UserDto userDto = authService.getUser();
         return ResponseEntity.ok(userDto);
     }
