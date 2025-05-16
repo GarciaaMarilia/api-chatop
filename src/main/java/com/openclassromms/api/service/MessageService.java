@@ -25,7 +25,7 @@ public class MessageService {
                 return "User doesn't exists";
             }
 
-            if(!rentalsRepository.existsById(request.getRentalId())){
+            if (!rentalsRepository.existsById(request.getRentalId())) {
                 return "Rental doesn't exists";
             }
 
