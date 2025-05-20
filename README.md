@@ -53,13 +53,11 @@ Le projet utilise :
 
 Spring Security
 
-OAuth2 Client (exemple : connexion via Google)
-
 JWT pour l’authentification
 
-##  Documentation
+## 📄 Documentation
 
-Une documentation interactive est générée automatiquement :
+Une documentation interactive est générée automatiquement avec SWAGGER :
 
 ```bash
 http://localhost:8080/swagger-ui.html
