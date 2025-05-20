@@ -53,8 +53,6 @@ Le projet utilise :
 
 Spring Security
 
-OAuth2 Client (exemple : connexion via Google)
-
 JWT pour l’authentification
 
 ##  Documentation
