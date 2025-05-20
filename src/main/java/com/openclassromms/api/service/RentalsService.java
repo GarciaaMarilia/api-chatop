@@ -48,7 +48,6 @@ public class RentalsService {
             existingRental.setPrice(request.getPrice());
             existingRental.setPicture(request.getPicture());
             existingRental.setDescription(request.getDescription());
-            existingRental.setUpdatedAt();
 
             rentalsRepository.save(existingRental);
 

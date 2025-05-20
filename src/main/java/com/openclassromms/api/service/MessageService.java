@@ -2,6 +2,8 @@ package com.openclassromms.api.service;
 
 import com.openclassromms.api.model.Message;
 import com.openclassromms.api.model.MessageRequest;
+import com.openclassromms.api.model.Rental;
+import com.openclassromms.api.model.User;
 import com.openclassromms.api.repository.MessageRepository;
 import com.openclassromms.api.repository.RentalsRepository;
 import com.openclassromms.api.repository.UserRepository;
@@ -31,8 +33,15 @@ public class MessageService {
 
             Message message = new Message();
             message.setMessage(request.getMessage());
-            message.setRentalId(request.getRentalId());
-            message.setUserId(request.getUserId());
+
+            User user = userRepository.findById(request.getUserId())
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+
+            Rental rental = rentalsRepository.findById(request.getRentalId())
+                    .orElseThrow(() -> new RuntimeException("Rental not found"));
+
+            message.setUser(user);
+            message.setRental(rental);
 
             messageRepository.save(message);
             return "Message send with success";

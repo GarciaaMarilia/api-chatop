@@ -18,11 +18,13 @@ public class Message {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @Column(name = "user_id")
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "rental_id", referencedColumnName = "id")
+    private Rental rental;
 
-    @Column(name = "rental_id")
-    private Long rentalId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 
     public Long getId() {
         return id;
@@ -32,22 +34,21 @@ public class Message {
         return createdAt;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Rental getRental() {
+        return rental;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setRental(Rental rental) {
+        this.rental = rental;
     }
 
-    public Long getRentalId() {
-        return rentalId;
+    public User getUser() {
+        return user;
     }
 
-    public void setRentalId(Long rentalId) {
-        this.rentalId = rentalId;
+    public void setUser(User user) {
+        this.user = user;
     }
-
     public String getMessage(){
         return message;
     }
