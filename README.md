@@ -55,7 +55,7 @@ Spring Security
 
 JWT pour l’authentification
 
-##  Documentation
+## 📄 Documentation
 
 Une documentation interactive est générée automatiquement :
 
