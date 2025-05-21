@@ -58,7 +58,6 @@ https://dev.mysql.com/downloads/installer/
 
 3. Créez un mot de passe pour l’utilisateur root lorsque demandé.
 
-
 #### Vérifiez que le serveur fonctionne :
 ```bash
 mysql -u root -p
