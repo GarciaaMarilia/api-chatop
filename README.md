@@ -25,18 +25,68 @@ Une API REST développée avec **Spring Boot 3.4.5** pour gérer l’authentific
 - MySQL installé et en cours d'exécution
 - Un IDE comme IntelliJ, Eclipse ou VS Code
 
+### Cloner le projet
+
+```bash
+git clone https://github.com/GarciaaMarilia/api-chatop.git
+cd api-chatop
+```
+
 ### Base de données
 
-Créer une base de données MySQL :
+#### ✅ Cas 1 : Vous n’avez pas encore MySQL installé
 
-```sql
+#### Ubuntu/Debian:
+```bash
+sudo apt update
+sudo apt install mysql-server
+sudo systemctl start mysql
+```
+
+#### macOS
+```bash
+brew install mysql
+brew services start mysql
+```
+
+#### Windows
+
+1. Téléchargez l’installateur MySQL depuis :
+https://dev.mysql.com/downloads/installer/
+
+2. Suivez les instructions d’installation (vous pouvez garder les options par défaut).
+
+3. Créez un mot de passe pour l’utilisateur root lorsque demandé.
+
+#### Vérifiez que le serveur fonctionne :
+```bash
+mysql -u root -p
+```
+
+#### ✅ Cas 2 : Vous avez déjà MySQL installé
+
+#### Se connecter à MySQL :
+```bash
+mysql -u user -p
+```
+
+#### Créer la base de données :
+```bash
 CREATE DATABASE chatop_db;
 ```
-Configurer la connexion dans le fichier application.properties ou application.yml :
+
+#### Créer un utilisateur dédié au projet (recommandé) :
+```bash
+CREATE USER 'chatop_user'@'localhost' IDENTIFIED BY 'mot_de_passe_sécurisé';
+GRANT ALL PRIVILEGES ON chatop_db.* TO 'chatop_user'@'localhost';
+FLUSH PRIVILEGES;
+```
+
+Configurer la connexion dans le fichier application.properties :
 
 ```java
 spring.datasource.url=jdbc:mysql://localhost:3306/chatop_db
-spring.datasource.username=root
+spring.datasource.username=chatop_user
 spring.datasource.password=ton_mot_de_passe
 spring.jpa.hibernate.ddl-auto=update
 ```
