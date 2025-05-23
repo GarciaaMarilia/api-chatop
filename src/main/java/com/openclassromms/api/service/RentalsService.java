@@ -3,6 +3,7 @@ package com.openclassromms.api.service;
 import com.openclassromms.api.model.Rental;
 import com.openclassromms.api.model.RentalsRequest;
 import com.openclassromms.api.repository.RentalsRepository;
+import exception.RentalNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +43,7 @@ public class RentalsService {
     public String updateRental(Long id, RentalsRequest request) {
         try {
             Rental existingRental = rentalsRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("Rental not found"));
+                    .orElseThrow(() -> new RentalNotFoundException("Rental not found"));
 
             existingRental.setSurface(request.getSurface());
             existingRental.setPrice(request.getPrice());

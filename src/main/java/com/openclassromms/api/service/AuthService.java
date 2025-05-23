@@ -5,6 +5,7 @@ import com.openclassromms.api.model.RegisterRequest;
 import com.openclassromms.api.model.User;
 import com.openclassromms.api.model.UserDto;
 import com.openclassromms.api.repository.UserRepository;
+import exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -74,7 +75,7 @@ public class AuthService {
             String email = authentication.getName();
 
             User user = userRepository.findByEmail(email)
-                    .orElseThrow(() -> new RuntimeException("User not found"));
+                    .orElseThrow(() -> new UserNotFoundException("User not found"));
 
             return UserDto.fromUser(user);
 

@@ -7,6 +7,8 @@ import com.openclassromms.api.model.User;
 import com.openclassromms.api.repository.MessageRepository;
 import com.openclassromms.api.repository.RentalsRepository;
 import com.openclassromms.api.repository.UserRepository;
+import exception.RentalNotFoundException;
+import exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,31 +24,18 @@ public class MessageService {
     private RentalsRepository rentalsRepository;
 
     public String sendMessage(MessageRequest request) {
-        try {
-            if (!userRepository.existsById(request.getUserId())) {
-                return "User doesn't exists";
-            }
+        User user = userRepository.findById(request.getUserId())
+                .orElseThrow(() -> new UserNotFoundException("User doesn't exists"));
 
-            if (!rentalsRepository.existsById(request.getRentalId())) {
-                return "Rental doesn't exists";
-            }
+        Rental rental = rentalsRepository.findById(request.getRentalId())
+                .orElseThrow(() -> new RentalNotFoundException( "Rental doesn't exists"));
 
-            Message message = new Message();
-            message.setMessage(request.getMessage());
+        Message message = new Message();
+        message.setMessage(request.getMessage());
+        message.setUser(user);
+        message.setRental(rental);
 
-            User user = userRepository.findById(request.getUserId())
-                    .orElseThrow(() -> new RuntimeException("User not found"));
-
-            Rental rental = rentalsRepository.findById(request.getRentalId())
-                    .orElseThrow(() -> new RuntimeException("Rental not found"));
-
-            message.setUser(user);
-            message.setRental(rental);
-
-            messageRepository.save(message);
-            return "Message send with success";
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to send message", e);
-        }
+        messageRepository.save(message);
+        return "Message sent with success";
     }
 }
