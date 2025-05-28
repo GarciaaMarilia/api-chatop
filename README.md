@@ -110,5 +110,5 @@ JWT pour l’authentification
 Une documentation interactive est générée automatiquement avec SWAGGER :
 
 ```bash
-http://localhost:8080/swagger-ui.html
+http://localhost:8080/swagger-ui/index.html
 ```
