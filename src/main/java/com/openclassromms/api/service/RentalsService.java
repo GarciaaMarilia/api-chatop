@@ -6,8 +6,14 @@ import com.openclassromms.api.repository.RentalsRepository;
 import exception.RentalNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class RentalsService {
@@ -23,18 +29,24 @@ public class RentalsService {
                 .orElse(null);
     }
 
-    public String createRental(RentalsRequest request) {
+    public void createRental(RentalsRequest request) {
         try {
+            MultipartFile file = request.getPicture();
+            String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+
+            Path uploadPath = Paths.get("uploads");
+            Files.createDirectories(uploadPath); // cria pasta caso não exista
+
+            Files.copy(file.getInputStream(), uploadPath.resolve(fileName), StandardCopyOption.REPLACE_EXISTING);
 
             Rental rental = new Rental();
+            rental.setName(request.getName());
             rental.setSurface(request.getSurface());
             rental.setPrice(request.getPrice());
-            rental.setPicture(request.getPicture());
+            rental.setPicture(fileName); // Salva o nome do arquivo, não o MultipartFile
             rental.setDescription(request.getDescription());
 
             rentalsRepository.save(rental);
-
-            return "Rental created with success";
         } catch (Exception e) {
             throw new RuntimeException("Failed to create a rental", e);
         }
@@ -45,9 +57,17 @@ public class RentalsService {
             Rental existingRental = rentalsRepository.findById(id)
                     .orElseThrow(() -> new RentalNotFoundException("Rental not found"));
 
+            MultipartFile file = request.getPicture();
+            String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+
+            Path uploadPath = Paths.get("uploads");
+            Files.createDirectories(uploadPath); // cria pasta caso não exista
+
+            Files.copy(file.getInputStream(), uploadPath.resolve(fileName), StandardCopyOption.REPLACE_EXISTING);
+
             existingRental.setSurface(request.getSurface());
             existingRental.setPrice(request.getPrice());
-            existingRental.setPicture(request.getPicture());
+            existingRental.setPicture(fileName);
             existingRental.setDescription(request.getDescription());
 
             rentalsRepository.save(existingRental);

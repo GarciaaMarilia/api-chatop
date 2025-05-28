@@ -16,6 +16,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class AuthService {
     @Autowired
@@ -27,10 +31,11 @@ public class AuthService {
     @Autowired
     private JwtService jwtService;
 
-    public String register(RegisterRequest request) {
+    public Map<String, String> register(RegisterRequest request) {
         try {
-            if (userRepository.existsByEmail((request.getEmail()))) {
-                return "E-mail already exists";
+            if (userRepository.existsByEmail(request.getEmail())) {
+                throw new RuntimeException("E-mail already exists");
+                // Ou retorne um Map com erro, depende da sua API
             }
 
             User user = new User();
@@ -39,26 +44,34 @@ public class AuthService {
             user.setPassword(passwordEncoder.encode(request.getPassword()));
             userRepository.save(user);
 
-            return "User registered successfully!";
+            // Gerar token JWT para o usuário recém-criado
+            String token = jwtService.generateToken(request.getEmail());
+
+            // Retornar token junto com mensagem, por exemplo:
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "User registered successfully!");
+            response.put("token", token);
+            return response;
 
         } catch (Exception e) {
             throw new RuntimeException("Failed to register user", e);
         }
     }
 
-    public String login(LoginRequest request) {
+
+    public Map<String, String> login(LoginRequest request) {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            request.getLogin(),
+                            request.getEmail(),
                             request.getPassword()
                     )
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            String token = jwtService.generateToken(request.getLogin());
+            String token = jwtService.generateToken(request.getEmail());
 
-            return token;
+            return Collections.singletonMap("token", token);
         } catch (AuthenticationException ex) {
             throw new BadCredentialsException("Invalid credentials.");
         }

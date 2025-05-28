@@ -23,7 +23,7 @@ public class MessageService {
     @Autowired
     private RentalsRepository rentalsRepository;
 
-    public String sendMessage(MessageRequest request) {
+    public void sendMessage(MessageRequest request) {
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new UserNotFoundException("User doesn't exists"));
 
@@ -36,6 +36,5 @@ public class MessageService {
         message.setRental(rental);
 
         messageRepository.save(message);
-        return "Message sent with success";
     }
 }
