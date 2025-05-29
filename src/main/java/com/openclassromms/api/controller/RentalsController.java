@@ -48,7 +48,7 @@ public class RentalsController {
     }
 
     @PutMapping("/{id}")
-    public String updateRental(@PathVariable Long id, @RequestBody RentalsRequest request) {
+    public String updateRental(@PathVariable Long id, @ModelAttribute RentalsRequest request) {
         return rentalService.updateRental(id, request);
     }
 }

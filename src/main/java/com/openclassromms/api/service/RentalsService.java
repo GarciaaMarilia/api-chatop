@@ -1,5 +1,6 @@
 package com.openclassromms.api.service;
 
+import com.openclassromms.api.config.AppProperties;
 import com.openclassromms.api.model.Rental;
 import com.openclassromms.api.model.RentalsRequest;
 import com.openclassromms.api.repository.RentalsRepository;
@@ -20,6 +21,10 @@ public class RentalsService {
     @Autowired
     private RentalsRepository rentalsRepository;
 
+    @Autowired
+    private AppProperties appProperties;
+
+
     public List<Rental> getAllRentals() {
         return rentalsRepository.findAll();
     }
@@ -35,7 +40,8 @@ public class RentalsService {
             String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
 
             Path uploadPath = Paths.get("uploads");
-            Files.createDirectories(uploadPath); // cria pasta caso não exista
+            Files.createDirectories(uploadPath);
+            String imageUrl = appProperties.getBaseUrl() + "/uploads/" + fileName;
 
             Files.copy(file.getInputStream(), uploadPath.resolve(fileName), StandardCopyOption.REPLACE_EXISTING);
 
@@ -43,7 +49,7 @@ public class RentalsService {
             rental.setName(request.getName());
             rental.setSurface(request.getSurface());
             rental.setPrice(request.getPrice());
-            rental.setPicture(fileName); // Salva o nome do arquivo, não o MultipartFile
+            rental.setPicture(imageUrl);
             rental.setDescription(request.getDescription());
 
             rentalsRepository.save(rental);
@@ -61,13 +67,16 @@ public class RentalsService {
             String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
 
             Path uploadPath = Paths.get("uploads");
-            Files.createDirectories(uploadPath); // cria pasta caso não exista
-
+            Files.createDirectories(uploadPath);
             Files.copy(file.getInputStream(), uploadPath.resolve(fileName), StandardCopyOption.REPLACE_EXISTING);
 
+
+            String imageUrl = appProperties.getBaseUrl() + "/uploads/" + fileName;
+
+            existingRental.setName(request.getName());
             existingRental.setSurface(request.getSurface());
             existingRental.setPrice(request.getPrice());
-            existingRental.setPicture(fileName);
+            existingRental.setPicture(imageUrl);
             existingRental.setDescription(request.getDescription());
 
             rentalsRepository.save(existingRental);
@@ -77,5 +86,6 @@ public class RentalsService {
             throw new RuntimeException("Failed to update rental", e);
         }
     }
+
 
 }
